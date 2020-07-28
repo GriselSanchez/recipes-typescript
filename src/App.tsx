@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import RecipesContainer from './components/RecipesContainer';
+import SearchBar from './components/SearchBar';
+import { APP_ID, APP_KEY } from './private-config.json';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const myCredentials = { id: APP_ID, key: APP_KEY };
+
+interface Props {}
+
+interface State {
+  ingredients: string;
+}
+
+class App extends React.Component<Props, State> {
+  state: Readonly<State> = {
+    ingredients: 'apple',
+  };
+
+  submitHandler = (ingredients: string) => {
+    const finalSearch = ingredients.replace(' ', '%20');
+    this.setState({ ingredients: finalSearch });
+  };
+
+  render() {
+    const { ingredients } = this.state;
+
+    return (
+      <div className="App">
+        <h1>Recipe App</h1>
+        <SearchBar onSearchSubmit={this.submitHandler} />
+        <RecipesContainer
+          credentials={myCredentials}
+          ingredients={ingredients}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
