@@ -4,6 +4,7 @@ import Recipe from './Recipe';
 interface Props {
   credentials: Credential;
   ingredients: string;
+  calories: string;
 }
 
 interface State {
@@ -15,6 +16,8 @@ interface Credential {
   key: string;
 }
 
+const baseURL = 'https://api.edamam.com/api/food-database/v2/parser?';
+
 class RecipesContainer extends React.Component<Props, State> {
   state: Readonly<State> = {
     recipes: [],
@@ -25,18 +28,15 @@ class RecipesContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.ingredients !== this.props.ingredients) {
-      this.getRecipes(this.props.credentials);
-    }
+    if (prevProps !== this.props) this.getRecipes(this.props.credentials);
   }
 
   async getRecipes(cred: Credential) {
     const res = await fetch(
-      `https://api.edamam.com/api/food-database/v2/parser?ingr=${this.props.ingredients}&app_id=${cred.id}&app_key=${cred.key}`
+      `${baseURL}ingr=${this.props.ingredients}&calories=${this.props.calories}&app_id=${cred.id}&app_key=${cred.key}`
     );
     const data = await res.json();
     this.setState({ recipes: data.hints });
-    console.log(data.hints);
   }
 
   render() {

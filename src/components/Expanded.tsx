@@ -1,7 +1,8 @@
 import React from 'react';
 
 interface Props {
-  details: any;
+  credentials: any;
+  foodID: string;
 }
 
 interface Nutrient {
@@ -11,39 +12,78 @@ interface Nutrient {
 }
 
 interface State {
-  totalDaily: any;
-  healthLabels: any;
+  details: { ingredients: Ingredient[] };
+  response: { totalNutrients: any; healthLabels: string[] };
+}
+
+interface Ingredient {
+  quantity: number;
+  measureURI: string;
+  foodId: string;
 }
 
 export default class Expanded extends React.Component<Props, State> {
-  state: Readonly<State> = { totalDaily: {}, healthLabels: [] };
+  state: Readonly<State> = {
+    details: {
+      ingredients: [
+        {
+          quantity: 1,
+          measureURI:
+            'http://www.edamam.com/ontologies/edamam.owl#Measure_serving',
+          foodId: this.props.foodID,
+        },
+      ],
+    },
+    response: { totalNutrients: {}, healthLabels: [] },
+  };
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (prevProps.details.totalDaily !== prevState.totalDaily) {
-      this.setState({
-        totalDaily: this.props.details.totalDaily,
-        healthLabels: this.props.details.healthLabels,
-      });
-    }
-  }
+  getDetails = async () => {
+    const req = await fetch(
+      `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${this.props.credentials.id}&app_key=${this.props.credentials.key}`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.state.details),
+      }
+    );
+    const res = await req.json();
+    return res;
+  };
+
+  handleClick = async () => {
+    const details = await this.getDetails();
+    this.setState({
+      response: {
+        totalNutrients: details.totalNutrients,
+        healthLabels: details.healthLabels,
+      },
+    });
+  };
 
   render() {
-    const { totalDaily, healthLabels } = this.state;
-    const nutrition: any = Object.values(totalDaily);
+    const { totalNutrients, healthLabels } = this.state.response;
+
+    let nutrition: any;
+    if (totalNutrients) nutrition = Object.values(totalNutrients);
 
     return (
       <div>
-        <h3>More Details</h3>
+        <button onClick={this.handleClick}>More Details</button>
         <ul>
-          {healthLabels.map((label: string) => (
-            <li>{label}</li>
-          ))}
+          {healthLabels &&
+            healthLabels.map((label: string) => <li>{label}</li>)}
         </ul>
 
         <ul>
-          {nutrition.map((elem: any) => (
-            <li>{`${elem.label}: ${elem.quantity.toFixed(2)}${elem.unit}`}</li>
-          ))}
+          {nutrition &&
+            nutrition.map((elem: Nutrient) => (
+              <li>{`${elem.label}: ${elem.quantity.toFixed(2)}${
+                elem.unit
+              }`}</li>
+            ))}
         </ul>
       </div>
     );
