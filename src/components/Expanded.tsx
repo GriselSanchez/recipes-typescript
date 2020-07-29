@@ -19,17 +19,12 @@ export default class Expanded extends React.Component<Props, State> {
   state: Readonly<State> = { totalDaily: {}, healthLabels: [] };
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if (prevProps.details.totalDaily !== this.state.totalDaily) {
-      this.setState({ totalDaily: this.props.details.totalDaily });
-      this.setState({ healthLabels: this.props.details.healthLabels });
+    if (prevProps.details.totalDaily !== prevState.totalDaily) {
+      this.setState({
+        totalDaily: this.props.details.totalDaily,
+        healthLabels: this.props.details.healthLabels,
+      });
     }
-  }
-
-  cleanNutrients(nutrients: any) {
-    let clean: any = {};
-    const keys = Object.keys(nutrients);
-    for (let k of keys) clean[k] = nutrients[k].toFixed(2);
-    return clean;
   }
 
   render() {
