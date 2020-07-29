@@ -13,6 +13,7 @@
 
 # misc
 private-config.json
+data.json
 
 .DS_Store
 .env.local

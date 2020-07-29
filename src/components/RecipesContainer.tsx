@@ -21,7 +21,7 @@ class RecipesContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.getRecipes(this.props.credentials);
+    //this.getRecipes(this.props.credentials);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -36,13 +36,18 @@ class RecipesContainer extends React.Component<Props, State> {
     );
     const data = await res.json();
     this.setState({ recipes: data.hints });
+    console.log(data.hints);
   }
 
   render() {
     return (
       <div>
         {this.state.recipes.map((recipe: any) => (
-          <Recipe key={recipe.food.id} recipe={recipe} />
+          <Recipe
+            key={recipe.food.id}
+            recipe={recipe}
+            credentials={this.props.credentials}
+          />
         ))}
       </div>
     );

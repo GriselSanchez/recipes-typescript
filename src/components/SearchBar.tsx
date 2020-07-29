@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  onSearchSubmit: any;
+  onSearchSubmit: (i: string) => any;
 }
 
 interface State {

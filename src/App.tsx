@@ -13,6 +13,7 @@ interface State {
 }
 
 class App extends React.Component<Props, State> {
+  //USAR CONTEXT PARA LAS CREDENCIALES
   state: Readonly<State> = {
     ingredients: 'apple',
   };
