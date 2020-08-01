@@ -5,6 +5,7 @@ interface Props {
   credentials: Credential;
   ingredients: string;
   calories: string;
+  health: string;
 }
 
 interface State {
@@ -32,8 +33,9 @@ class RecipesContainer extends React.Component<Props, State> {
   }
 
   async getRecipes(cred: Credential) {
+    console.log(this.props);
     const res = await fetch(
-      `${baseURL}ingr=${this.props.ingredients}&calories=${this.props.calories}&app_id=${cred.id}&app_key=${cred.key}`
+      `${baseURL}ingr=${this.props.ingredients}&calories=${this.props.calories}&health=${this.props.health}&app_id=${cred.id}&app_key=${cred.key}`
     );
     const data = await res.json();
     this.setState({ recipes: data.hints });

@@ -12,6 +12,7 @@ interface Props {}
 interface State {
   ingredients: string;
   calories: string;
+  health: string;
 }
 
 class App extends React.Component<Props, State> {
@@ -19,14 +20,19 @@ class App extends React.Component<Props, State> {
   state: Readonly<State> = {
     ingredients: 'apple',
     calories: '',
+    health: '',
   };
 
-  submitHandler = ({ ingredients, calories }: any) => {
-    this.setState({ ingredients: ingredients, calories: calories.total });
+  submitHandler = ({ ingredients, calories, labels }: any) => {
+    this.setState({
+      ingredients: ingredients,
+      calories: calories.total,
+      health: labels,
+    });
   };
 
   render() {
-    const { ingredients, calories } = this.state;
+    const { ingredients, calories, health } = this.state;
 
     return (
       <div className="App">
@@ -37,6 +43,7 @@ class App extends React.Component<Props, State> {
           credentials={myCredentials}
           ingredients={ingredients}
           calories={calories}
+          health={health}
         />
       </div>
     );

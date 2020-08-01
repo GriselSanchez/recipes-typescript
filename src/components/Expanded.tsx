@@ -50,6 +50,7 @@ export default class Expanded extends React.Component<Props, State> {
       }
     );
     const res = await req.json();
+    console.log(res);
     return res;
   };
 
@@ -73,17 +74,15 @@ export default class Expanded extends React.Component<Props, State> {
       <div>
         <button onClick={this.handleClick}>More Details</button>
         <ul>
-          {healthLabels &&
-            healthLabels.map((label: string) => <li>{label}</li>)}
+          {healthLabels.map((label: string) => (
+            <li>{label}</li>
+          ))}
         </ul>
 
         <ul>
-          {nutrition &&
-            nutrition.map((elem: Nutrient) => (
-              <li>{`${elem.label}: ${elem.quantity.toFixed(2)}${
-                elem.unit
-              }`}</li>
-            ))}
+          {nutrition.map((elem: Nutrient) => (
+            <li>{`${elem.label}: ${elem.quantity.toFixed(2)}${elem.unit}`}</li>
+          ))}
         </ul>
       </div>
     );

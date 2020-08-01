@@ -1,6 +1,6 @@
 import React from 'react';
 import Calories from './Calories';
-
+import HealthLabels from './HealthLabels';
 interface Props {
   onSearchSubmit: any;
 }
@@ -8,12 +8,14 @@ interface Props {
 interface State {
   ingredients: string;
   calories: { min: string; max: string; total: string };
+  labels: string;
 }
 
 class SearchBar extends React.Component<Props, State> {
   state: Readonly<State> = {
     ingredients: 'apple',
     calories: { min: '', max: '', total: '' },
+    labels: '',
   };
 
   handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +23,7 @@ class SearchBar extends React.Component<Props, State> {
   };
 
   handleCalories = ({ minCalories, maxCalories }: any) => {
+    //doesnt work if i dont enter calories
     this.setState({
       calories: {
         min: minCalories,
@@ -40,11 +43,17 @@ class SearchBar extends React.Component<Props, State> {
     this.setState({ ingredients: encodeURI(ingredients) });
   };
 
+  handleLabels = (labels: string[]) => {
+    this.setState({ labels: labels.join('%') }, () =>
+      console.log('2' + this.state.labels)
+    );
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.setFinalIngredients(this.state.ingredients);
     this.props.onSearchSubmit(this.state);
-    console.log(this.state);
+    console.log(`lifted up ${this.state.labels}`);
   };
 
   render() {
@@ -56,6 +65,7 @@ class SearchBar extends React.Component<Props, State> {
           onChange={this.handleInput}
         />
         <Calories onCaloriesChange={this.handleCalories} />
+        <HealthLabels onLabelsChange={this.handleLabels} />
         <button type="submit">Search</button>
       </form>
     );
