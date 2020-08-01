@@ -1,45 +1,57 @@
 import React from 'react';
 
 interface Props {
-  onCaloriesChange: any;
+  onCalorieChange: any;
 }
 
 interface State {
   minCalories: string;
   maxCalories: string;
+  total: string;
 }
 
 export default class Calories extends React.Component<Props, State> {
   state: Readonly<State> = {
     minCalories: '',
     maxCalories: '',
+    total: ''
   };
 
-  handleMinCalories = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ minCalories: event.target.value }, () =>
-      this.props.onCaloriesChange(this.state)
-    );
+  handleCalories = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { name, value } } = event;
+    // @ts-ignore
+    this.setState({ [name]: value }, this.sendTotalCalories);
+  }
+
+  getTotalCalories = () => {
+    const { minCalories, maxCalories } = this.state;
+
+    if (minCalories && maxCalories) return `${minCalories}-${maxCalories}`;
+    else if (!maxCalories) return `${minCalories}%2B`;
+    else return maxCalories;
   };
 
-  handleMaxCalories = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //recordar que setState es asincrono
-    this.setState({ maxCalories: event.target.value }, () =>
-      this.props.onCaloriesChange(this.state)
+  sendTotalCalories = () => {
+    this.setState(
+      { total: this.getTotalCalories() },
+      () => this.props.onCalorieChange('totalCalories', this.state.total)
     );
-  };
+  }
 
   render() {
     return (
       <div>
         <input
           type="number"
-          placeholder="min-calories"
-          onInput={this.handleMinCalories}
+          name="minCalories"
+          placeholder="Min Calories"
+          onInput={this.handleCalories}
         ></input>
         <input
           type="number"
-          placeholder="max-calories"
-          onInput={this.handleMaxCalories}
+          name="maxCalories"
+          placeholder="Max Calories"
+          onInput={this.handleCalories}
         ></input>
       </div>
     );

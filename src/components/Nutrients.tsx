@@ -8,9 +8,7 @@ const Nutrients = (props: { nutrients: any }) => {
     return clean;
   };
 
-  let nutrients: any = cleanNutrients(props.nutrients);
-
-  const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = nutrients;
+  const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = cleanNutrients(props.nutrients);
 
   return (
     <div>

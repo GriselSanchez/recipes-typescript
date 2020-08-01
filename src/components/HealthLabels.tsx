@@ -5,7 +5,7 @@ interface State {
 }
 
 interface Props {
-  onLabelsChange: any;
+  onLabelChange: any;
 }
 export default class HealthLabels extends Component<Props, State> {
   state: Readonly<State> = {
@@ -13,16 +13,15 @@ export default class HealthLabels extends Component<Props, State> {
   };
 
   handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let labels = this.state.labels;
-    const value = event.target.value;
+    let newLabels;
+    const { labels } = this.state;
+    const { value, checked } = event.target;
 
-    event.target.checked
-      ? (labels = [...labels, value])
-      : (labels = labels.filter((l) => l !== value));
+    checked
+      ? (newLabels = [...labels, value])
+      : (newLabels = labels.filter((l) => l !== value));
 
-    this.setState({ labels: labels }, () =>
-      this.props.onLabelsChange(this.state.labels)
-    );
+    this.setState({ labels: newLabels }, () => this.props.onLabelChange('labels', this.state.labels.join('%')));
   };
 
   render() {

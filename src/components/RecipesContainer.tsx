@@ -29,16 +29,24 @@ class RecipesContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps !== this.props) this.getRecipes(this.props.credentials);
+    if (prevProps !== this.props) this.getRecipes();
   }
 
-  async getRecipes(cred: Credential) {
-    console.log(this.props);
-    const res = await fetch(
-      `${baseURL}ingr=${this.props.ingredients}&calories=${this.props.calories}&health=${this.props.health}&app_id=${cred.id}&app_key=${cred.key}`
-    );
+  async getRecipes() {
+    const query = this.getQuery();
+    const res = await fetch(query);
     const data = await res.json();
     this.setState({ recipes: data.hints });
+  }
+
+  getQuery = () => {
+    const { calories, health, ingredients } = this.props;
+    let query = `${baseURL}ingr=${ingredients}`;
+
+    if (calories) query = `${query}&calories=${calories}`;
+    if (health) query = `${query}&health=${health}`;
+
+    return `${query}&app_id=${this.props.credentials.id}&app_key=${this.props.credentials.key}`
   }
 
   render() {
@@ -46,11 +54,12 @@ class RecipesContainer extends React.Component<Props, State> {
       <div>
         {this.state.recipes.map((recipe: any) => (
           <Recipe
-            key={recipe.food.id}
+            key={recipe.food.foodId}
             recipe={recipe}
             credentials={this.props.credentials}
           />
-        ))}
+        )
+        )}
       </div>
     );
   }

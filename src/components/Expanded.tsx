@@ -75,13 +75,13 @@ export default class Expanded extends React.Component<Props, State> {
         <button onClick={this.handleClick}>More Details</button>
         <ul>
           {healthLabels.map((label: string) => (
-            <li>{label}</li>
+            <li key={label}>{label}</li>
           ))}
         </ul>
 
         <ul>
           {nutrition.map((elem: Nutrient) => (
-            <li>{`${elem.label}: ${elem.quantity.toFixed(2)}${elem.unit}`}</li>
+            <li key={elem.label}>{`${elem.label}: ${elem.quantity.toFixed(2)}${elem.unit}`}</li>
           ))}
         </ul>
       </div>
