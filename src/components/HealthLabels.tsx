@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import Label from './Label';
+
 interface State {
   labels: string[];
 }
+
 interface Props {
   onLabelChange: any;
 }
+
 export default class HealthLabels extends Component<Props, State> {
   state: Readonly<State> = {
     labels: [],

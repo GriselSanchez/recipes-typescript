@@ -1,7 +1,21 @@
 import React from 'react';
+import withStyles from 'react-jss';
+import classNames from 'classnames';
+
+const styles = (theme: any) => ({
+  ...theme,
+  caloriesContainer: {
+    display: 'flex',
+    width: '50%'
+  },
+  caloriesInput: {
+    width: '50%'
+  }
+});
 
 interface Props {
   onCalorieChange: any;
+  classes: any;
 }
 
 interface State {
@@ -10,7 +24,7 @@ interface State {
   total: string;
 }
 
-export default class Calories extends React.Component<Props, State> {
+class Calories extends React.Component<Props, State> {
   state: Readonly<State> = {
     minCalories: '',
     maxCalories: '',
@@ -39,16 +53,20 @@ export default class Calories extends React.Component<Props, State> {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
+      <div className={classes.caloriesContainer}>
         <input
           type="number"
+          className={classNames(classes.input, classes.caloriesInput)}
           name="minCalories"
           placeholder="Min Calories"
           onInput={this.handleCalories}
         ></input>
         <input
           type="number"
+          className={classNames(classes.input, classes.caloriesInput)}
           name="maxCalories"
           placeholder="Max Calories"
           onInput={this.handleCalories}
@@ -57,3 +75,5 @@ export default class Calories extends React.Component<Props, State> {
     );
   }
 }
+
+export default withStyles(styles)(Calories);

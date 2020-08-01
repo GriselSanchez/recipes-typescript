@@ -3,6 +3,8 @@ import './App.css';
 import RecipesContainer from './components/RecipesContainer';
 import SearchBar from './components/SearchBar';
 import { APP_ID, APP_KEY } from './private-config.json';
+import { ThemeProvider } from 'react-jss';
+import theme from './styles/theme'
 
 const myCredentials = { id: APP_ID, key: APP_KEY };
 
@@ -13,8 +15,8 @@ interface State {
   calories: string;
   health: string;
 }
-
 class App extends React.Component<Props, State> {
+
   state: Readonly<State> = {
     ingredients: 'apple',
     calories: '',
@@ -31,18 +33,19 @@ class App extends React.Component<Props, State> {
 
   render() {
     const { ingredients, calories, health } = this.state;
-
     return (
-      <div className="App">
-        <h1>Recipe App</h1>
-        <SearchBar onSearchSubmit={this.submitHandler} />
-        <RecipesContainer
-          credentials={myCredentials}
-          ingredients={ingredients}
-          calories={calories}
-          health={health}
-        />
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <h1>Recipe App</h1>
+          <SearchBar onSearchSubmit={this.submitHandler} />
+          <RecipesContainer
+            credentials={myCredentials}
+            ingredients={ingredients}
+            calories={calories}
+            health={health}
+          />
+        </div>
+      </ThemeProvider>
     );
   }
 }

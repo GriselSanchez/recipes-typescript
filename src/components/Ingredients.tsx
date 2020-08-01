@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import withStyles from 'react-jss';
+
+const styles = (theme: any) => ({
+    ...theme,
+});
 
 interface Props {
     onIngredientChange: any;
+    classes: any;
 }
 
 interface State {
     ingredients: string
 }
 
-
-export default class Ingredients extends Component<Props, State> {
+class Ingredients extends Component<Props, State> {
     state: Readonly<State> = {
         ingredients: '',
     };
@@ -22,14 +27,19 @@ export default class Ingredients extends Component<Props, State> {
     };
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <div>
+            <Fragment>
                 <input
                     type="text"
+                    className={classes.input}
                     placeholder="Search for ingredients or food"
                     onChange={this.handleInput}
                 />
-            </div>
+            </Fragment >
         );
     }
 }
+
+export default withStyles(styles)(Ingredients)

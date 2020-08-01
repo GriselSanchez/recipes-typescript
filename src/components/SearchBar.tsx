@@ -1,9 +1,22 @@
 import React from 'react';
+import withStyles from 'react-jss';
+
+//Components
 import Calories from './Calories';
 import HealthLabels from './HealthLabels';
 import Ingredients from './Ingredients';
+
+const styles = (theme: any) => ({
+  ...theme,
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
+});
 interface Props {
   onSearchSubmit: any;
+  classes: any;
 }
 
 interface State {
@@ -22,7 +35,7 @@ class SearchBar extends React.Component<Props, State> {
   handleInput = (field: string, value: string) => {
     // @ts-ignore
     this.setState({ [field]: value });
-  }
+  };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,15 +43,20 @@ class SearchBar extends React.Component<Props, State> {
   };
 
   render() {
+    console.log(this);
+
+    const { classes } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className={classes.form} onSubmit={this.handleSubmit}>
         <Ingredients onIngredientChange={this.handleInput} />
         <Calories onCalorieChange={this.handleInput} />
         <HealthLabels onLabelChange={this.handleInput} />
-        <button type="submit">Search</button>
+        <button className={classes.button} type="submit">
+          Search
+        </button>
       </form>
     );
   }
 }
 
-export default SearchBar;
+export default withStyles(styles)(SearchBar);
