@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-
+import Label from './Label';
 interface State {
   labels: string[];
 }
-
 interface Props {
   onLabelChange: any;
 }
@@ -19,7 +18,7 @@ export default class HealthLabels extends Component<Props, State> {
 
     checked
       ? (newLabels = [...labels, value])
-      : (newLabels = labels.filter((l) => l !== value));
+      : (newLabels = labels.filter(l => l !== value));
 
     this.setState({ labels: newLabels }, () => this.props.onLabelChange('labels', this.state.labels.join('%')));
   };
@@ -27,33 +26,17 @@ export default class HealthLabels extends Component<Props, State> {
   render() {
     return (
       <div>
-        <label>
-          dairy-free
-          <input
-            type="checkbox"
-            value="dairy-free"
-            name="dairy-free"
-            onChange={this.handleCheckbox}
-          ></input>
-        </label>
-        <label>
-          low-sugar
-          <input
-            type="checkbox"
-            value="low-sugar"
-            name="low-sugar"
-            onChange={this.handleCheckbox}
-          ></input>
-        </label>
-        <label>
-          vegetarian
-          <input
-            type="checkbox"
-            value="vegetarian"
-            name="vegetarian"
-            onChange={this.handleCheckbox}
-          ></input>
-        </label>
+        <Label name="dairy-free" onLabelChange={this.handleCheckbox} />
+        <Label name="fish-free" onLabelChange={this.handleCheckbox} />
+        <Label name="gluten-free" onLabelChange={this.handleCheckbox} />
+        <Label name="kosher" onLabelChange={this.handleCheckbox} />
+        <Label name="low-sugar" onLabelChange={this.handleCheckbox} />
+        <Label name="paleo" onLabelChange={this.handleCheckbox} />
+        <Label name="peanut-free" onLabelChange={this.handleCheckbox} />
+        <Label name="pecatarian" onLabelChange={this.handleCheckbox} />
+        <Label name="vegetarian" onLabelChange={this.handleCheckbox} />
+        <Label name="vegan" onLabelChange={this.handleCheckbox} />
+        <Label name="soy-free" onLabelChange={this.handleCheckbox} />
       </div>
     );
   }
