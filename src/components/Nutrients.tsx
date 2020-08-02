@@ -1,5 +1,4 @@
 import React from 'react';
-import ProgressBar from './ProgressBar';
 
 const Nutrients = (props: { nutrients: any }) => {
 	const cleanNutrients = (nutrients: any) => {
@@ -9,13 +8,10 @@ const Nutrients = (props: { nutrients: any }) => {
 		return clean;
 	};
 
-	const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = cleanNutrients(
-		props.nutrients
-	);
+	const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = cleanNutrients(props.nutrients);
 
 	return (
 		<div>
-			<ProgressBar calories={ENERC_KCAL} />
 			<p>Calories: {ENERC_KCAL}</p>
 			<p>Proteins: {PROCNT}</p>
 			<p>Fat: {FAT}</p>
