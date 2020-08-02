@@ -1,45 +1,39 @@
 import React, { Component, Fragment } from 'react';
 import withStyles from 'react-jss';
+import classNames from 'classnames';
 
 const styles = (theme: any) => ({
-    ...theme,
+	...theme,
+	ingredientsInput: {
+		height: 30,
+		fontSize: 'medium',
+	},
 });
 
 interface Props {
-    onIngredientChange: any;
-    classes: any;
+	onIngredientChange: any;
+	classes: any;
 }
 
-interface State {
-    ingredients: string
+class Ingredients extends Component<Props> {
+	handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.props.onIngredientChange('ingredients', encodeURI(event.target.value));
+	};
+
+	render() {
+		const { classes } = this.props;
+
+		return (
+			<Fragment>
+				<input
+					type='text'
+					className={classNames(classes.input, classes.ingredientsInput)}
+					placeholder='Search for ingredients or food'
+					onChange={this.handleInput}
+				/>
+			</Fragment>
+		);
+	}
 }
 
-class Ingredients extends Component<Props, State> {
-    state: Readonly<State> = {
-        ingredients: '',
-    };
-
-    handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState(
-            { ingredients: encodeURI(event.target.value) },
-            () => this.props.onIngredientChange('ingredients', this.state.ingredients)
-        );
-    };
-
-    render() {
-        const { classes } = this.props;
-
-        return (
-            <Fragment>
-                <input
-                    type="text"
-                    className={classes.input}
-                    placeholder="Search for ingredients or food"
-                    onChange={this.handleInput}
-                />
-            </Fragment >
-        );
-    }
-}
-
-export default withStyles(styles)(Ingredients)
+export default withStyles(styles)(Ingredients);

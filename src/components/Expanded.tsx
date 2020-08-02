@@ -1,8 +1,28 @@
 import React from 'react';
+import withStyles from 'react-jss';
+import formatString from '../util/formatString';
 
+const styles = (theme: any) => ({
+	...theme,
+	container: {
+		display: 'grid',
+		justifyContent: 'center',
+	},
+	detailsContainer: {
+		display: 'inline-grid',
+		textAlign: 'left',
+		gridTemplateColumns: 'repeat(4, 1fr)',
+		gridGap: '10px 30px',
+	},
+});
+
+const baseURL = 'https://api.edamam.com/api/food-database/v2/nutrients?';
+
+//TODO: refactor component
 interface Props {
 	credentials: any;
 	foodID: string;
+	classes: any;
 }
 
 interface Nutrient {
@@ -23,7 +43,7 @@ interface Ingredient {
 	foodId: string;
 }
 
-export default class Expanded extends React.Component<Props, State> {
+class Expanded extends React.Component<Props, State> {
 	state: Readonly<State> = {
 		details: {
 			ingredients: [
@@ -41,7 +61,7 @@ export default class Expanded extends React.Component<Props, State> {
 
 	getDetails = async () => {
 		const req = await fetch(
-			`https://api.edamam.com/api/food-database/v2/nutrients?app_id=${this.props.credentials.id}&app_key=${this.props.credentials.key}`,
+			`${baseURL}app_id=${this.props.credentials.id}&app_key=${this.props.credentials.key}`,
 			{
 				method: 'POST',
 				headers: {
@@ -72,6 +92,7 @@ export default class Expanded extends React.Component<Props, State> {
 			response: { totalNutrients, healthLabels },
 			shouldShow,
 		} = this.state;
+		const { classes } = this.props;
 		const show = shouldShow ? 'Less' : 'More';
 		let nutrition: any;
 
@@ -81,21 +102,22 @@ export default class Expanded extends React.Component<Props, State> {
 			<div>
 				<button onClick={this.handleClick}>{`${show} Details`}</button>
 				{shouldShow ? (
-					<div>
-						<ul>
-							{healthLabels &&
-								healthLabels.map((label: string) => (
-									<li key={label}>{label}</li>
-								))}
-						</ul>
-						<ul>
+					<div className={classes.container}>
+						<ul className={classes.detailsContainer}>
 							{totalNutrients &&
 								nutrition.map((elem: Nutrient) => (
-									<li key={elem.label}>{`${
-										elem.label
-									}: ${elem.quantity.toFixed(2)}${
-										elem.unit
-									}`}</li>
+									<li key={elem.label}>
+										<span style={{ fontWeight: 'bold' }}>
+											{elem.label}
+										</span>
+										{`: ${elem.quantity.toFixed(2)}${elem.unit}`}
+									</li>
+								))}
+						</ul>
+						<ul className={classes.detailsContainer}>
+							{healthLabels &&
+								healthLabels.map((label: string) => (
+									<li key={label}>{formatString(label)}</li>
 								))}
 						</ul>
 					</div>
@@ -104,3 +126,5 @@ export default class Expanded extends React.Component<Props, State> {
 		);
 	}
 }
+
+export default withStyles(styles)(Expanded);
