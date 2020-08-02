@@ -2,6 +2,9 @@ import React from 'react';
 import withStyles from 'react-jss';
 import formatString from '../util/formatString';
 import Bold from './Bold';
+import { Credential, Nutrient, Ingredient, Meal } from '../util/Interfaces';
+
+//TODO: refactor component
 
 const styles = (theme: any) => ({
 	...theme,
@@ -19,29 +22,16 @@ const styles = (theme: any) => ({
 
 const baseURL = 'https://api.edamam.com/api/food-database/v2/nutrients?';
 
-//TODO: refactor component
 interface Props {
-	credentials: any;
+	credentials: Credential;
 	foodID: string;
 	classes: any;
 }
 
-interface Nutrient {
-	label: string;
-	quantity: number;
-	unit: string;
-}
-
 interface State {
 	details: { ingredients: Ingredient[] };
-	response: { totalNutrients: any; healthLabels: string[] };
+	response: { totalNutrients: Meal[]; healthLabels: string[] };
 	shouldShow: boolean;
-}
-
-interface Ingredient {
-	quantity: number;
-	measureURI: string;
-	foodId: string;
 }
 
 class Expanded extends React.Component<Props, State> {
@@ -56,7 +46,7 @@ class Expanded extends React.Component<Props, State> {
 				},
 			],
 		},
-		response: { totalNutrients: {}, healthLabels: [] },
+		response: { totalNutrients: [], healthLabels: [] },
 		shouldShow: false,
 	};
 

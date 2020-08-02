@@ -1,15 +1,21 @@
 import React from 'react';
 import Bold from './Bold';
+import { MainNutrients } from '../util/Interfaces';
 
-const Nutrients = (props: { nutrients: any }) => {
-	const cleanNutrients = (nutrients: any) => {
-		let clean: any = {};
+interface Props {
+	nutrients: MainNutrients;
+}
+
+const Nutrients: React.FC<Props> = ({ nutrients }: Props) => {
+	const cleanNutrients = (nutrients: MainNutrients) => {
+		let clean: { [key: string]: string } = {};
 		const keys = Object.keys(nutrients);
+
 		for (let k of keys) clean[k] = nutrients[k].toFixed(2);
 		return clean;
 	};
 
-	const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = cleanNutrients(props.nutrients);
+	const { ENERC_KCAL, PROCNT, FAT, CHOCDF, FIBTG } = cleanNutrients(nutrients);
 
 	return (
 		<div>

@@ -1,6 +1,6 @@
-export default (str: string) => {
+export default (sentence: string) => {
 	const regex = /-|_/gi;
-	let words: string[] = str.replace(regex, ' ').split(' ');
+	let words: string[] = sentence.replace(regex, ' ').split(' ');
 	let formatted: string[] = [];
 
 	for (let word of words)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Checkbox from './Checkbox';
 import withStyles from 'react-jss';
 
@@ -17,11 +17,11 @@ interface State {
 }
 
 interface Props {
-	onLabelChange: any;
+	onLabelChange: (type: string, value: string) => void;
 	classes: any;
 }
 
-class HealthLabels extends Component<Props, State> {
+class HealthLabels extends React.Component<Props, State> {
 	state: Readonly<State> = {
 		labels: [],
 	};

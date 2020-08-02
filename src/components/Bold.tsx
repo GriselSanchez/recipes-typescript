@@ -1,5 +1,11 @@
 import React from 'react';
 
-export default function Bold({ text }: any) {
-	return <span style={{ fontWeight: 'bold' }}>{text}</span>;
+interface Props {
+	text: string;
 }
+
+const Bold: React.FC<Props> = ({ text }: Props) => {
+	return <span style={{ fontWeight: 'bold' }}>{text}</span>;
+};
+
+export default Bold;

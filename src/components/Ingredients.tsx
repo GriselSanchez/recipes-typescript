@@ -11,7 +11,7 @@ const styles = (theme: any) => ({
 });
 
 interface Props {
-	onIngredientChange: any;
+	onIngredientChange: (type: string, value: string) => void;
 	classes: any;
 }
 

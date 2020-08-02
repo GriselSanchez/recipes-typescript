@@ -14,7 +14,13 @@ const styles = (theme: any) => ({
 	},
 });
 
-function Checkbox({ name, onLabelChange, classes }: any) {
+interface Props {
+	name: string;
+	onLabelChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	classes: any;
+}
+
+const Checkbox: React.FC<Props> = ({ name, onLabelChange, classes }: Props) => {
 	return (
 		<label htmlFor={name} className={classes.container}>
 			{formatString(name)}
@@ -27,6 +33,6 @@ function Checkbox({ name, onLabelChange, classes }: any) {
 			/>
 		</label>
 	);
-}
+};
 
 export default withStyles(styles)(Checkbox);

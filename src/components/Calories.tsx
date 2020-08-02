@@ -11,7 +11,7 @@ const styles = (theme: any) => ({
 });
 
 interface Props {
-	onCalorieChange: any;
+	onCalorieChange: (type: string, value: string) => void;
 	classes: any;
 }
 

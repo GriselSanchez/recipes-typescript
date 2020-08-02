@@ -15,7 +15,7 @@ const styles = (theme: any) => ({
 	},
 });
 interface Props {
-	onSearchSubmit: any;
+	onSearchSubmit: (state: State) => void;
 	classes: any;
 }
 
@@ -43,8 +43,6 @@ class SearchBar extends React.Component<Props, State> {
 	};
 
 	render() {
-		console.log(this);
-
 		const { classes } = this.props;
 		return (
 			<form className={classes.container} onSubmit={this.handleSubmit}>
