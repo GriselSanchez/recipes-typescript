@@ -1,6 +1,7 @@
 import React from 'react';
 import withStyles from 'react-jss';
 import formatString from '../util/formatString';
+import Bold from './Bold';
 
 const styles = (theme: any) => ({
 	...theme,
@@ -107,10 +108,8 @@ class Expanded extends React.Component<Props, State> {
 							{totalNutrients &&
 								nutrition.map((elem: Nutrient) => (
 									<li key={elem.label}>
-										<span style={{ fontWeight: 'bold' }}>
-											{elem.label}
-										</span>
-										{`: ${elem.quantity.toFixed(2)}${elem.unit}`}
+										<Bold text={`${elem.label}: `} />
+										{`${elem.quantity.toFixed(2)}${elem.unit}`}
 									</li>
 								))}
 						</ul>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Bold from './Bold';
 
 const Nutrients = (props: { nutrients: any }) => {
 	const cleanNutrients = (nutrients: any) => {
@@ -12,11 +13,26 @@ const Nutrients = (props: { nutrients: any }) => {
 
 	return (
 		<div>
-			<p>Calories: {ENERC_KCAL}</p>
-			<p>Proteins: {PROCNT}</p>
-			<p>Fat: {FAT}</p>
-			<p>Carbs: {CHOCDF}</p>
-			<p>Fiber: {FIBTG}</p>
+			<p>
+				<Bold text='Calories: ' />
+				{ENERC_KCAL}
+			</p>
+			<p>
+				<Bold text='Proteins: ' />
+				{PROCNT}
+			</p>
+			<p>
+				<Bold text='Fat: ' />
+				{FAT}
+			</p>
+			<p>
+				<Bold text='Carbs: ' />
+				{CHOCDF}
+			</p>
+			<p>
+				<Bold text='Fiber: ' />
+				{FIBTG}
+			</p>
 		</div>
 	);
 };
